@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # Function to calculate Raman Intensity
 def generate_raman_data(wavenumbers, laser_intensities, laser_wavelength, proportionality_C=1e-40, resonance_wavelength=900e-7):
@@ -38,3 +39,14 @@ df.columns.name = "Raman Shift (cm^-1)"
 output_file = "raman_intensity_data_updated.xlsx"
 df.to_excel(output_file)
 print(f"Data successfully saved to {output_file}")
+
+# Plotting Raman Intensity vs Laser Intensity
+plt.figure(figsize=(10, 6))
+for wavenumber in wavenumbers:
+    plt.plot(laser_intensities, data[wavenumber], label=f"{wavenumber} cm⁻¹")
+plt.xlabel("Laser Intensity (W)")
+plt.ylabel("Raman Intensity (arbitrary units)")
+plt.title("Raman Intensity vs Laser Intensity")
+plt.legend()
+plt.grid(True)
+plt.show()

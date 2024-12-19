@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 
 # Function to generate Raman intensity data with wavelength-dependent polarizability
 def generate_raman_intensity_data(
@@ -56,11 +57,21 @@ def generate_raman_intensity_data(
 
     # Convert to DataFrame
     df = pd.DataFrame(data)
-    return df
+    return df, wavenumbers
 
 # Generate and save the data
-data = generate_raman_intensity_data()
+data, wavenumbers = generate_raman_intensity_data()
 output_file = "Raman_Intensity_With_Polarizability.xlsx"
 data.to_excel(output_file, index=False)
-
 print(f"Raman intensity data saved to {output_file}")
+
+# Plotting Raman Intensity vs Wavenumber for Each Laser Wavelength
+plt.figure(figsize=(10, 6))
+for column in data.columns[1:]:
+    plt.plot(data["Wavenumber (cm⁻¹)"], data[column], label=column)
+plt.xlabel("Wavenumber (cm⁻¹)")
+plt.ylabel("Raman Intensity (arbitrary units)")
+plt.title("Raman Intensity vs Wavenumber for Various Laser Wavelengths")
+plt.legend()
+plt.grid(True)
+plt.show()
